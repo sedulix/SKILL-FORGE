@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skill Forge: Unlocking the Learning Genome</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- New hi-tech font: Rajdhani -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Rajdhani:wght@400;600;700&display=swap"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Rajdhani:wght+400;600;700&display=swap"
           rel="stylesheet">
     <style>
         /* UPDATED: Green, Black, and White Palette (Deep Dark Mode) */
@@ -74,13 +75,20 @@
             animation: borderGlow 4s infinite ease-in-out;
         }
 
-        /* UPDATED: Liquid Glass Header Effect - Made more transparent (0.3 alpha) */
+        /* *** REVERTED: Liquid Glass Header Effect - Transparency back to 0.3 (more transparent)
+        */
         .glass-header {
-            background-color: rgba(10, 10, 10, 0.3); /* Made more transparent */
+            background-color: rgba(10, 10, 10, 0.3); /* MORE TRANSPARENT (less opaque) */
             backdrop-filter: blur(15px); /* Apply the blur effect */
             -webkit-backdrop-filter: blur(15px); /* Safari support */
             transition: background-color 0.3s ease;
         }
+
+        /* *** REMOVED: island-nav class definitions
+
+        Note: The original structural elements from the first submission are restored.
+        */
+
 
         /* Base state for scroll-animated elements: invisible and ready to animate */
         .scroll-animate {
@@ -146,25 +154,50 @@
             animation: fadeOut 0.5s forwards;
             pointer-events: none;
         }
+        .video-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* full viewport height */
+    overflow: hidden;
+}
+
+.bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    object-fit: cover; /* makes video cover entire section */
+}
+
+.video-section .content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
     </style>
 </head>
 <body class="bg-gray-950">
 
-<!-- Preloader Element -->
 <div id="preloader">
     <div class="spinner"></div>
     <div class="absolute text-xl font-bold text-gradient mt-20">Loading Skill Forge...</div>
 </div>
 
-<!-- Header & Navigation - UPDATED with rounded-b-xl for rounded bottom corners -->
 <header class="glass-header shadow-2xl border-b border-green-700/50 sticky top-0 z-50 rounded-b-xl">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <!-- Logo with scaleIn animation -->
         <div class="text-3xl font-extrabold text-gradient tracking-widest animate-scaleIn"
              style="animation-delay: 0.1s;">Skill Forge
         </div>
 
-        <!-- Navigation Links with staggered slideInLeft animation -->
         <div class="hidden md:flex space-x-8">
             <a href="#about" class="text-gray-300 hover:text-green-400 transition duration-150 animate-slideInLeft"
                style="animation-delay: 0.2s;">About</a>
@@ -179,7 +212,6 @@
                style="animation-delay: 0.6s;">Location</a>
         </div>
 
-        <!-- Primary CTA with scaleIn animation -->
         <a href="#"
            class="bg-green-600 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-green-500 transition duration-200 shadow-lg hidden sm:block transform hover:scale-105 animate-scaleIn"
            style="animation-delay: 0.7s;">
@@ -188,21 +220,22 @@
     </nav>
 </header>
 
-<!-- Hero Section - UPDATED with section-separator -->
-<section id="hero" class="hero-bg py-24 sm:py-32 lg:py-40 text-white section-separator">
+
+<section id="hero" class="hero-bg py-24 sm:py-32 lg:py-40 text-white section-separator video-section">
+    <video autoplay muted loop class="bg-video">
+        <source src="{% static 'landing/vid/background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <!-- Title -->
         <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 tracking-wider animate-fadeInUp"
             style="animation-delay: 0.8s;">
             Unlocking the Student's <span class="text-green-400">Learning Genome</span>
         </h1>
-        <!-- Subtext -->
         <p class="text-xl sm:text-2xl mb-10 max-w-4xl mx-auto text-gray-300 animate-fadeInUp"
            style="animation-delay: 1.0s;">
             Skill Forge transforms education from a one-size-fits-all model into a dynamic, personalized path of growth,
             driven by deep data analysis.
         </p>
-        <!-- CTA button -->
         <a href="#how-it-works"
            class="bg-green-400 text-gray-900 font-bold text-lg px-10 py-4 rounded-xl shadow-2xl hover:bg-green-300 transition duration-300 transform hover:scale-105 hover:shadow-green-500/50 animate-scaleIn"
            style="animation-delay: 1.2s;">
@@ -211,10 +244,8 @@
     </div>
 </section>
 
-<!-- Why Unique / Learning Genome DNA - UPDATED with section-separator -->
 <section id="about" class="py-16 sm:py-24 bg-gray-950 section-separator">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Title block keeps animation -->
         <div class="text-center mb-16 scroll-animate" data-animation="animate-fadeInUp" data-delay="0.0">
             <h2 class="text-4xl font-extrabold text-gray-100 mb-4">
                 Why Skill Forge is <span class="text-gradient">Unique</span>
@@ -224,22 +255,21 @@
             </p>
         </div>
 
-        <!-- Card grid is NOT individually animated, allowing content to appear smoothly together -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div class="p-8 bg-gray-800 rounded-xl shadow-xl border-t-4 border-green-600 hover:shadow-green-700/30 transition duration-300">
-                <div class="text-3xl text-green-400 mb-4">🔬</div>
+                <div class="text-3xl text-green-400 mb-4"><i class="fas fa-dna"></i></div>
                 <h3 class="text-xl font-bold mb-3 text-white">The Genomic Approach</h3>
                 <p class="text-gray-400">While medicine maps DNA, we map the **Educational Genome**—a detailed, dynamic
                     profile of how each student learns best.</p>
             </div>
             <div class="p-8 bg-gray-800 rounded-xl shadow-xl border-t-4 border-green-600 hover:shadow-green-700/30 transition duration-300">
-                <div class="text-3xl text-green-400 mb-4">🔄</div>
+                <div class="text-3xl text-green-400 mb-4"><i class="fas fa-sync-alt"></i></div>
                 <h3 class="text-xl font-bold mb-3 text-white">Dynamic & Adaptive</h3>
                 <p class="text-gray-400">The Student Development Map is not static. It's constantly updated in real-time
                     based on emotional state and task behavior.</p>
             </div>
             <div class="p-8 bg-gray-800 rounded-xl shadow-xl border-t-4 border-green-600 hover:shadow-green-700/30 transition duration-300">
-                <div class="text-3xl text-green-400 mb-4">🧠</div>
+                <div class="text-3xl text-green-400 mb-4"><i class="fas fa-brain"></i></div>
                 <h3 class="text-xl font-bold mb-3 text-white">Deeper Understanding</h3>
                 <p class="text-gray-400">Schools gain an unprecedented level of insight, allowing educators to
                     understand the student deeper than ever before.</p>
@@ -248,10 +278,8 @@
     </div>
 </section>
 
-<!-- The Student Profile Components - UPDATED with section-separator -->
 <section id="profile" class="py-16 sm:py-24 bg-gray-900 section-separator">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Title block keeps animation -->
         <div class="text-center mb-16 scroll-animate" data-animation="animate-fadeInUp" data-delay="0.0">
             <h2 class="text-4xl font-extrabold text-gray-100 mb-4">
                 The 7 Pillars of the Learning Profile
@@ -261,45 +289,42 @@
             </p>
         </div>
 
-        <!-- Profile Pillars - No individual staggering -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-6 text-center scroll-animate"
              data-animation="animate-fadeInUp" data-delay="0.2">
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">💡</div>
+                <div class="text-3xl mb-2"><i class="fas fa-lightbulb text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Thinking Style</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">👂</div>
+                <div class="text-3xl mb-2"><i class="fas fa-eye text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Perception</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">⏱️</div>
+                <div class="text-3xl mb-2"><i class="fas fa-clock text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Pace of Assimilation</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">💪</div>
+                <div class="text-3xl mb-2"><i class="fas fa-dumbbell text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Strong & Weak Skills</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">⭐</div>
+                <div class="text-3xl mb-2"><i class="fas fa-star text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Core Interests</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">😊</div>
+                <div class="text-3xl mb-2"><i class="fas fa-face-smile text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Emotional State</p>
             </div>
             <div class="p-4 bg-gray-800 rounded-xl shadow-lg transition hover:shadow-green-500/30 border-b-2 border-green-600/50 hover:bg-gray-700">
-                <div class="text-3xl mb-2">⚙️</div>
+                <div class="text-3xl mb-2"><i class="fas fa-gear text-green-400"></i></div>
                 <p class="font-semibold text-sm text-white">Task Behavior</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- How It Works (4 Steps) - UPDATED with section-separator -->
 <section id="how-it-works" class="py-16 sm:py-24 bg-gray-950 section-separator">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Title block keeps animation -->
         <div class="text-center mb-16 scroll-animate" data-animation="animate-fadeInUp" data-delay="0.0">
             <h2 class="text-4xl font-extrabold text-gray-100 mb-4">
                 Skill Forge Workflow
@@ -310,11 +335,9 @@
         </div>
 
         <div class="relative">
-            <!-- Vertical Line keeps animation -->
             <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-green-900/50 scroll-animate"
                  data-animation="animate-fadeInUp" data-delay="0.1"></div>
 
-            <!-- Step 1 (Now individually animated and staggered) -->
             <div class="flex flex-col md:flex-row mb-12 relative scroll-animate" data-animation="animate-fadeInUp"
                  data-delay="0.3">
                 <div class="md:w-5/12 p-4 text-right">
@@ -323,7 +346,6 @@
                         text, voice input, and general preferences.</p>
                 </div>
                 <div class="flex items-center justify-center md:w-2/12">
-                    <!-- Ring highlights the current step -->
                     <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-gray-900 font-bold shadow-xl ring-4 ring-green-700/50">
                         1
                     </div>
@@ -331,7 +353,6 @@
                 <div class="md:w-5/12 p-4"></div>
             </div>
 
-            <!-- Step 2 (Now individually animated and staggered) -->
             <div class="flex flex-col md:flex-row-reverse mb-12 relative scroll-animate"
                  data-animation="animate-fadeInUp" data-delay="0.6">
                 <div class="md:w-5/12 p-4 text-left">
@@ -347,7 +368,6 @@
                 <div class="md:w-5/12 p-4"></div>
             </div>
 
-            <!-- Step 3 (Now individually animated and staggered) -->
             <div class="flex flex-col md:flex-row mb-12 relative scroll-animate" data-animation="animate-fadeInUp"
                  data-delay="0.9">
                 <div class="md:w-5/12 p-4 text-right">
@@ -363,7 +383,6 @@
                 <div class="md:w-5/12 p-4"></div>
             </div>
 
-            <!-- Step 4 (Now individually animated and staggered) -->
             <div class="flex flex-col md:flex-row-reverse relative scroll-animate" data-animation="animate-fadeInUp"
                  data-delay="1.2">
                 <div class="md:w-5/12 p-4 text-left">
@@ -384,10 +403,8 @@
     </div>
 </section>
 
-<!-- LOCATION SECTION - UPDATED with different background for contrast -->
 <section id="location" class="py-16 sm:py-24 bg-gray-900 section-separator">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Title block keeps animation -->
         <div class="text-center mb-12 scroll-animate" data-animation="animate-fadeInUp" data-delay="0.0">
             <h2 class="text-4xl font-extrabold text-gray-100 mb-4">
                 Our Central Hub
@@ -397,14 +414,11 @@
             </p>
         </div>
 
-        <!-- Content grid: Map takes 2/3 of the space on desktop -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start scroll-animate" data-animation="animate-fadeInUp"
              data-delay="0.2">
 
-            <!-- Map Container (Takes 2/3 of the space on large screens) -->
             <div id="apartment-image-container"
                  class="lg:col-span-2 p-4 bg-gray-800 rounded-xl shadow-2xl border border-green-700/50">
-                <!-- Google Maps Embed for Bobur 17A, Tashkent -->
                 <iframe
                         src="https://www.google.com/maps?q=ул.+Бобур+17А,+Ташкент&output=embed"
                         width="100%"
@@ -416,7 +430,6 @@
                 </iframe>
             </div>
 
-            <!-- Location Details & Contact (Takes 1/3 of the space on large screens) -->
             <div class="space-y-4 lg:col-span-1">
                 <div class="p-6 bg-gray-800 rounded-xl border-l-4 border-green-500 shadow-xl">
                     <h3 class="text-xl font-bold text-green-400 mb-3">Skill Forge Global Hub</h3>
@@ -433,19 +446,14 @@
     </div>
 </section>
 
-<!-- Call to Action (Black background) (Animation applied to the main container) -->
 <section class="bg-black py-16 border-t border-green-700/50">
-    <!-- Main container keeps animation -->
     <div class="max-w-5xl mx-auto px-4 text-center scroll-animate" data-animation="animate-fadeInUp" data-delay="0.0">
-        <!-- Title -->
         <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
             Ready to Map the Future of Learning?
         </h2>
-        <!-- Subtext -->
         <p class="text-xl text-gray-400 mb-8">
             Join the revolution in personalized education and give your students the Skill Forge advantage.
         </p>
-        <!-- CTA button (No individual animation) -->
         <a href="#"
            class="bg-green-400 text-gray-900 font-bold text-lg px-10 py-4 rounded-xl shadow-2xl hover:bg-white transition duration-300 transform hover:scale-105 hover:shadow-green-500/50">
             Get Started Today
@@ -453,15 +461,13 @@
     </div>
 </section>
 
-<!-- Footer (Black background) (Animation applied to the main container) -->
 <footer class="bg-black text-white py-8 border-t border-green-700/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600 scroll-animate"
          data-animation="animate-fadeInUp" data-delay="0.0">
-        <p>&copy; 2025 Skill Forge. All rights reserved. | The future of personalized education.</p>
+        <p>© 2025 Skill Forge. All rights reserved. | The future of personalized education.</p>
     </div>
 </footer>
 
-<!-- JavaScript for Scroll-Based Animations and Preloader -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Function to handle the scroll animations
