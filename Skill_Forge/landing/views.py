@@ -13,5 +13,18 @@ class TestPageView(View):
         return render(request, 'landing/test.html', context)
 
 
+class OurTeamView(View):
+    def get(self, request):
+        context = {
 
+        }
+        return render(request, 'landing/ourteam.html', context)
+
+
+class About(View):
+    def get(self, request):
+        context = {
+
+        }
+        return render(request, 'landing/about.html', context)
 
