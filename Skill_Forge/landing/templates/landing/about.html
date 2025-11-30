@@ -114,12 +114,106 @@
             border: 2px solid #39d997;
         }
 
+        /* === Разделительные линии === */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #2a2e44; /* тонкая темная линия */
+            margin: 60px 0;
+        }
+
         footer {
             text-align: center;
             padding: 30px 20px;
             border-top: 1px solid #1f2233;
             color: #777;
             font-size: 0.9rem;
+        }
+
+        /* === Родмап === */
+        .roadmap-section h2 {
+            margin-bottom: 50px;
+        }
+
+        .roadmap-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1000px;
+            margin: 0 auto 80px auto;
+            padding: 0 20px;
+        }
+
+        .roadmap-line {
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: #2a2e44;
+            z-index: 1;
+        }
+
+        .phase {
+            position: relative;
+            text-align: center;
+            max-width: 200px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: var(--delay);
+        }
+
+        .phase-circle {
+            width: 20px;
+            height: 20px;
+            background: #39d997;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: popIn 0.5s ease forwards;
+            animation-delay: var(--delay);
+        }
+
+        .phase-content h3 {
+            color: #39d997;
+            margin-bottom: 10px;
+        }
+
+        .phase-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .roadmap-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .roadmap-line {
+                top: auto;
+                left: 50%;
+                width: 4px;
+                height: 80%;
+            }
+            .phase {
+                margin-bottom: 40px;
+            }
         }
     </style>
 </head>
@@ -175,13 +269,64 @@
         </div>
     </div>
 
+
+    <div class="divider"></div>
+
+    
     <div class="section video-container">
         <h2>Case solution explained</h2>
         <video controls>
-            <source src="{%static 'landing/videos/SkillForge_vid.mp4' %}" type="video/mp4">
+            <source src="{% static 'landing/videos/SkillForge_vid.mp4' %}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
+
+
+    <div class="divider"></div>
+
+
+    <div class="section roadmap-section">
+        <h2>Product Roadmap</h2>
+        <div class="roadmap-container">
+            <div class="roadmap-line"></div>
+
+            <div class="phase" style="--delay:0s">
+                <div class="phase-circle"></div>
+                <div class="phase-content">
+                    <h3>PHASE 1</h3>
+                    <p><strong>Pilot (0-6 months):</strong> Test on 5-10 schools. Basic test + profile generation with rule-based recommendations.</p>
+                </div>
+            </div>
+
+            <div class="phase" style="--delay:0.2s">
+                <div class="phase-circle"></div>
+                <div class="phase-content">
+                    <h3>PHASE 2</h3>
+                    <p><strong>Expansion (6-18 months):</strong> Add talent heatmaps, emotional surveys, learning path suggestions.</p>
+                </div>
+            </div>
+
+            <div class="phase" style="--delay:0.4s">
+                <div class="phase-circle"></div>
+                <div class="phase-content">
+                    <h3>PHASE 3</h3>
+                    <p>National rollout (Year 2). Full school integration, progress tracking, and class-level reports.</p>
+                </div>
+            </div>
+
+            <div class="phase" style="--delay:0.6s">
+                <div class="phase-circle"></div>
+                <div class="phase-content">
+                    <h3>PHASE 4</h3>
+                    <p>Global platform (Year 3). Open API for EdTech, international localization, continuous improvement of templates and features.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="divider"></div>
 
 </div>
 
@@ -191,7 +336,3 @@
 
 </body>
 </html>
-
-
-
-
