@@ -35,7 +35,7 @@ The video explains the main features, digital profile generation, and overall wo
 
 ## 🖥️ Tech Stack
 
-- **Frontend:** HTML, CSS, animations  
+- **Frontend:** HTML, CSS, JavaScript, animations  
 - **Backend:** Django (Python)  
 - **Video:** HTML5 `<video>`  
 
