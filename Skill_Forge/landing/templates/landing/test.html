@@ -74,6 +74,20 @@
             text-align: center;
             letter-spacing: 1px;
         }
+        .progress-bar-container {
+            height: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--color-primary);
+            transition: width 0.4s ease-in-out;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body class="bg-gray-950">
@@ -85,16 +99,23 @@
             <div class="text-3xl font-extrabold text-gradient tracking-widest">Skill Forge</div>
 
             <!-- Navigation Link (Updated to be a regular button as this is a standalone quiz page) -->
-            <a href="{% url 'landing:index'%}" class="bg-green-600 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-green-500 transition duration-200 shadow-lg hidden sm:block">Home</a>
+            <a href="{% url 'landing:index'%}"  class="bg-green-600 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-green-500 transition duration-200 shadow-lg hidden sm:block">
+                Home
+            </a>
         </nav>
     </header>
 
     <!-- Main Quiz Container -->
     <main class="max-w-3xl mx-auto px-4 py-16">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-green-400 mb-4">Your Digital Profile</h1>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-green-400 mb-4">Unlock Your Learning Genome</h1>
         <p class="text-center text-gray-400 mb-12 text-lg">Take this streamlined quiz to discover your strengths, weaknesses, and personalized learning profile.</p>
 
         <div id="quiz-container" class="bg-[#111] p-8 rounded-3xl border border-green-700/50 shadow-2xl shadow-green-900/50 transition duration-500">
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
             <div id="question-container">
                 <!-- Questions injected here -->
             </div>
@@ -112,25 +133,40 @@
     </div>
 
 <script>
-// Quiz data (Reduced to 12 core questions)
+// Quiz data (10 focused questions to cover all 7 criteria)
 const questions = [
-    { q: "1. How do you approach problem-solving?", options: ["Logical/Analytical", "Creative/Intuitive", "Practical/Hands-on"], key: "thinking" },
-    { q: "2. What is your preferred way of learning?", options: ["Visual (seeing)", "Auditory (hearing)", "Kinesthetic (doing)"], key: "learning" },
-    { q: "3. Which field excites you the most?", options: ["Technology & Science", "Design & Arts", "Business & Organization"], key: "interest" },
-    { q: "4. When faced with multiple tasks, how do you handle them?", options: ["Organized planning", "Jump between tasks", "Procrastinate slightly"], key: "time" },
-    { q: "5. How comfortable are you with abstract concepts (like philosophy or advanced math)?", options: ["Very confident", "Moderately comfortable", "Find them confusing"], key: "abstract" },
-    { q: "6. How do you react to constructive criticism?", options: ["Accept and apply it", "Get defensive initially", "Feel demotivated"], key: "criticism" },
-    { q: "7. Do you prefer leading a team or following instructions?", options: ["Prefer leading", "Comfortable following instructions", "Collaborate equally"], key: "leadership" },
-    { q: "8. How well do you handle stress or pressure?", options: ["Very well/Stay calm", "Average/Manageable", "Poorly/Easily overwhelmed"], key: "stress" },
-    { q: "9. How do you prefer working in groups?", options: ["Active contributor", "Supportive role", "Prefer working alone"], key: "collab" },
-    { q: "10. How often do you come up with new ideas?", options: ["Often", "Sometimes", "Rarely"], key: "creativity" },
-    { q: "11. Do you take initiative in starting new projects?", options: ["Yes, always", "Sometimes, if motivated", "No, I wait for direction"], key: "initiative" },
-    { q: "12. How do you approach risks or uncertainty?", options: ["High tolerance, willing to try", "Moderate, cautious but open", "Low tolerance, prefer safety"], key: "risk" },
+    // 1. Thinking Style & Strong/Weak Skills (Q1, Q2)
+    { q: "1. When learning a complex topic, I prefer to:", options: ["Break it down logically (Analytical)", "Experiment and find my own way (Intuitive)", "Follow a step-by-step guide (Structured)"], key: "thinking_style" },
+    { q: "2. Which academic subject or skill comes most naturally to you?", options: ["Math & Science (Logical)", "Art & Writing (Creative)", "Sports & Building (Practical)"], key: "strong_skill" },
+
+    // 3. Perception (Q3)
+    { q: "3. When learning a new skill, which method is most effective for you?", options: ["Watching videos or diagrams (Visual)", "Listening to explanations or lectures (Auditory)", "Immediately trying it out yourself (Kinesthetic)"], key: "perception" },
+
+    // 4. Pace of Assimilation (Q4)
+    { q: "4. When you encounter challenging material, you usually:", options: ["Master it quickly, even if it takes effort (Fast Assimilation)", "Take my time, reviewing it multiple times (Moderate Assimilation)", "Often get stuck and need outside help (Slow Assimilation)"], key: "pace" },
+
+    // 5. Core Interests (Q5)
+    { q: "5. Which type of extracurricular or hobby excites you most?", options: ["Coding, Robotics, or Strategy Games (Technology & Logic)", "Drawing, Music, or Theater (Arts & Expression)", "Volunteering, Debating, or Organizing events (Social & Business)"], key: "core_interest" },
+
+    // 6. Emotional State & Task Behavior (Q6, Q7, Q8, Q9)
+    { q: "6. How do you feel when your schedule suddenly changes and disrupts your plan?", options: ["Calmly adjust my approach (Stable Emotional State)", "Feel stressed or annoyed (Reactive Emotional State)", "Get overwhelmed and lose focus (Unstable Emotional State)"], key: "emotional_state" },
+    { q: "7. When starting a major project, you are most likely to:", options: ["Define all steps and deadlines before starting (Organized Behavior)", "Start immediately, figuring it out as I go (Adaptive Behavior)", "Wait until the last minute to begin (Procrastination Behavior)"], key: "task_behavior_planning" },
+    { q: "8. How do you handle failure or criticism?", options: ["Analyze it and try again immediately (Resilient)", "Get discouraged but eventually recover (Moderate Resilience)", "Avoid tasks where failure is possible (Risk-Averse)"], key: "task_behavior_resilience" },
+    { q: "9. When working in a group, your primary contribution is:", options: ["Leading the discussion and assigning tasks (Leadership)", "Ensuring everyone feels heard and the work is high quality (Support/Detail)", "Completing a specific part independently (Specialist/Solo)"], key: "task_behavior_group" },
+
+    // 7. Weak Skills (Q10)
+    { q: "10. Which area do you find yourself needing the most help with?", options: ["Staying motivated on long projects (Endurance)", "Understanding emotional or social situations (Empathy/Soft Skills)", "Keeping track of small details and follow-through (Attention to Detail)"], key: "weak_skill" },
+
 ];
 
 let currentQuestion = 0;
 let answers = {};
 let selectedOptionEl = null;
+
+function updateProgressBar() {
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = `${progress}%`;
+}
 
 function showQuestion() {
     const container = document.getElementById("question-container");
@@ -146,11 +182,20 @@ function showQuestion() {
         const btn = document.createElement("button");
         btn.className = "option-btn";
         btn.innerText = option;
+        // Check if this option was previously selected and highlight it
+        if (answers[q.key] === option) {
+            btn.classList.add('selected');
+            selectedOptionEl = btn;
+        }
         btn.onclick = (e) => selectAnswer(option, e.target);
         container.appendChild(btn);
     });
 
-    document.getElementById("next-btn").style.display = "none";
+    const nextBtn = document.getElementById("next-btn");
+    nextBtn.style.display = answers[q.key] ? "inline-block" : "none";
+    nextBtn.innerText = currentQuestion < questions.length - 1 ? "Next Question" : "View Profile";
+
+    updateProgressBar();
 }
 
 function selectAnswer(option, element) {
@@ -162,8 +207,10 @@ function selectAnswer(option, element) {
     allOptions.forEach(btn => btn.classList.remove('selected'));
     element.classList.add('selected');
 
-    document.getElementById("next-btn").style.display = "inline-block";
-    selectedOptionEl = element; // Store selected element for verification, though storing the answer is primary
+    const nextBtn = document.getElementById("next-btn");
+    nextBtn.style.display = "inline-block";
+    nextBtn.innerText = currentQuestion < questions.length - 1 ? "Next Question" : "View Profile";
+    selectedOptionEl = element;
 }
 
 function nextQuestion() {
@@ -176,7 +223,6 @@ function nextQuestion() {
             showResult();
         }
     } else {
-        // No alert, use console log or visual feedback instead
         console.warn("Please select an answer before proceeding.");
     }
 }
@@ -185,67 +231,82 @@ function showResult() {
     document.getElementById("quiz-container").style.display = "none";
     const res = document.getElementById("result");
 
-    // --- Core Analysis (Simplified based on the 12 questions) ---
+    // --- Analysis for the 7 Criteria ---
 
-    // 1. Determine Major/Focus (Based on Interest)
-    let major = "";
-    let comments = "";
-    const interest = answers.interest.toLowerCase();
-    switch(interest.split(' ')[0]) {
-        case "technology": major = "STEM / Computer Science";
-            comments = "Your primary interest points towards analytical and innovative technical fields."; break;
-        case "design": major = "Creative Arts / Design / Media";
-            comments = "A strong creative drive suggests roles in arts, communication, and design."; break;
-        case "business": major = "Management / Finance / Leadership";
-            comments = "Your orientation towards organization and collaboration is perfect for business roles."; break;
-        default: major = "Cross-Disciplinary Exploration"; comments = "Your interests are varied. You might excel in fields that combine disciplines.";
-    }
+    // 1. Thinking Style
+    const thinkingStyle = answers.thinking_style.includes("Logical") ? "Analytical Thinker" : answers.thinking_style.includes("Intuitive") ? "Creative/Intuitive Thinker" : "Structured Thinker";
 
-    // 2. Identify Growth Areas (Weaknesses)
-    let weaknesses = [];
-    if (answers.time.includes("Procrastinate")) weaknesses.push("Time Management");
-    if (answers.abstract.includes("confusing")) weaknesses.push("Abstract/Theoretical Comprehension");
-    if (answers.criticism.includes("Defensive")) weaknesses.push("Feedback Resilience");
-    if (answers.stress.includes("Poorly")) weaknesses.push("Stress Management");
-    if (answers.collab.includes("alone")) weaknesses.push("Team Collaboration");
-    if (answers.initiative.includes("No")) weaknesses.push("Proactivity/Self-Starting");
-    if (answers.risk.includes("Low")) weaknesses.push("Risk Tolerance/Adaptability");
+    // 2. Perception (Learning Style)
+    const perception = answers.perception.split(' ')[0]; // Visual, Auditory, or Kinesthetic
 
-    // 3. Overall Recommendation
-    let recommendations = weaknesses.length > 0
-        ? "Focus on dedicated modules for: " + weaknesses.join(", ") + ". Utilizing structured planning tools can mitigate these challenges."
-        : "Your profile is highly adaptable and robust! Focus on mastering advanced domain-specific knowledge.";
+    // 3. Pace of Assimilation
+    const pace = answers.pace.includes("Fast") ? "Quick Adaptor" : answers.pace.includes("Moderate") ? "Methodical Learner" : "Support-Oriented Learner";
 
-    // 4. Assemble HTML Profile
-    let profileHTML = `<h2 class="text-3xl font-bold text-green-400 mb-6 text-center">Your Learning Genome Profile</h2>`;
-    profileHTML += `<div class="p-6 border-b border-gray-700 mb-6">
-                        <p class="text-xl text-white font-semibold mb-2">Likely Educational Path:</p>
-                        <p class="text-2xl font-bold text-gradient">${major}</p>
-                        <p class="text-gray-400 mt-2">${comments}</p>
-                    </div>`;
+    // 4. Core Interests
+    const coreInterest = answers.core_interest.split('(')[1].replace(')', '');
 
-    profileHTML += `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-[#1e1e1e] p-4 rounded-xl border border-green-700/30">
-            <p class="font-semibold text-green-400">Core Learning Style:</p>
-            <p class="text-white">${answers.learning} & ${answers.thinking}</p>
-        </div>
-        <div class="bg-[#1e1e1e] p-4 rounded-xl border border-green-700/30">
-            <p class="font-semibold text-green-400">Behavioral Orientation:</p>
-            <p class="text-white">Leadership: ${answers.leadership} | Collaboration: ${answers.collab}</p>
-        </div>
+    // 5. Emotional State
+    const emotionalState = answers.emotional_state.includes("Calmly") ? "Stable and Adaptable" : answers.emotional_state.includes("stressed") ? "Reactive to Disruption" : "Prone to Overwhelm";
+
+    // 6. Task Behavior
+    let taskBehavior = [];
+    if (answers.task_behavior_planning.includes("Define all steps")) taskBehavior.push("Highly Organized Planner");
+    if (answers.task_behavior_resilience.includes("Analyze it")) taskBehavior.push("Resilient and Action-Oriented");
+    if (answers.task_behavior_group.includes("Leading")) taskBehavior.push("Natural Leader/Director");
+
+    if (taskBehavior.length === 0) taskBehavior.push("Specialist, focusing on independent execution.");
+
+    // 7. Strong & Weak Skills
+    const strongSkill = answers.strong_skill.split('(')[1].replace(')', '');
+    const weakSkill = answers.weak_skill.split('(')[0].trim();
+
+    let growthAreas = [];
+    if (weakSkill === "Staying motivated on long projects") growthAreas.push("Endurance & Long-Term Focus");
+    if (weakSkill === "Understanding emotional or social situations") growthAreas.push("Emotional Intelligence & Soft Skills");
+    if (weakSkill === "Keeping track of small details and follow-through") growthAreas.push("Attention to Detail & Task Completion");
+    if (emotionalState.includes("Overwhelm") || emotionalState.includes("Reactive")) growthAreas.push("Stress Management & Emotional Regulation");
+    if (answers.task_behavior_planning.includes("Wait until the last minute")) growthAreas.push("Proactivity & Time Management");
+    if (answers.task_behavior_resilience.includes("Risk-Averse")) growthAreas.push("Risk Tolerance & Resilience");
+
+    let recommendations = growthAreas.length > 0
+        ? "We recommend modules focusing on: " + growthAreas.join(", ") + ". These will help round out your 'Genome'."
+        : "Your profile is highly adaptable and robust! Focus on mastering advanced domain-specific knowledge within your core interest.";
+
+
+    // 8. Assemble HTML Profile
+    let profileHTML = `<h2 class="text-3xl font-bold text-green-400 mb-6 text-center">Your Skill Forge Profile (7-Point Analysis)</h2>`;
+    profileHTML += `<p class="text-lg text-center text-gray-300 mb-8">This profile summarizes your strengths across seven key developmental areas.</p>`;
+
+    // Core Analysis Grid
+    profileHTML += `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        ${renderMetric("Thinking Style", thinkingStyle, "💡")}
+        ${renderMetric("Perception (Learning)", perception, "👂")}
+        ${renderMetric("Core Interest", coreInterest, "⭐")}
+        ${renderMetric("Pace of Assimilation", pace, "⏱️")}
+        ${renderMetric("Emotional State", emotionalState, "😊")}
+        ${renderMetric("Primary Strong Skill", strongSkill, "💪")}
     </div>`;
 
-    profileHTML += `<h3 class="text-xl font-bold text-red-400 mt-6 mb-3">Identified Areas for Growth:</h3>`;
+    // Task Behavior Summary
+    profileHTML += `<div class="bg-[#1e1e1e] p-5 rounded-xl border border-green-700/30 mb-6">
+        <p class="font-semibold text-green-400 text-xl mb-2">Task Behavior & Leadership:</p>
+        <p class="text-white">${taskBehavior.join('; ')}</p>
+    </div>`;
+
+    // Growth Areas
+    profileHTML += `<h3 class="text-xl font-bold text-red-400 mt-6 mb-3">Identified Growth Areas:</h3>`;
     profileHTML += `<ul class="list-disc list-inside ml-4 space-y-2 text-gray-300">`;
-    if (weaknesses.length === 0) {
+    if (growthAreas.length === 0) {
          profileHTML += `<li>None detected! This is a strong, well-rounded profile.</li>`;
     } else {
-        weaknesses.forEach(w => {
-            profileHTML += `<li class="text-red-300">${w} - Needs targeted Skill Forge module development.</li>`;
+        growthAreas.forEach(w => {
+            profileHTML += `<li class="text-red-300">${w}</li>`;
         });
     }
     profileHTML += `</ul>`;
-    profileHTML += `<p class="mt-8 text-lg font-semibold text-white">Skill Forge Recommendation:</p>`;
+
+    // Recommendation
+    profileHTML += `<p class="mt-8 text-lg font-semibold text-white">Skill Forge Personalized Recommendation:</p>`;
     profileHTML += `<p class="text-gray-400">${recommendations}</p>`;
 
     profileHTML += `<div class="text-center mt-10">
@@ -256,6 +317,14 @@ function showResult() {
 
     res.innerHTML = profileHTML;
     res.style.display = "block";
+}
+
+function renderMetric(title, value, icon) {
+    return `<div class="bg-[#1e1e1e] p-4 rounded-xl border border-green-700/30">
+        <p class="text-2xl mb-1">${icon}</p>
+        <p class="font-semibold text-green-400 text-sm uppercase">${title}:</p>
+        <p class="text-white text-md font-bold">${value}</p>
+    </div>`;
 }
 
 function restartQuiz() {
