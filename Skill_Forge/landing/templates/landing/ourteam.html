@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Friendly Team</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            background-color: #0f111a;
+            color: #ffffff;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background-color: #0f111a;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2233;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        header h1 {
+            color: #39d997;
+            font-size: 1.8rem;
+        }
+
+        nav a {
+            background-color: #16a34a;
+            color: #111827;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: none;
+            transition: 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a:hover {
+            background-color: #22c55e;
+        }
+
+        @media (min-width: 640px) {
+            nav a {
+                display: inline-block;
+            }
+        }
+
+        .team-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .team-section h2 {
+            color: #39d997;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .team-section p {
+            color: #aaa;
+            margin-bottom: 50px;
+        }
+
+        .team-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #1f2233;
+            border: 1px solid #2a2e44;
+            border-radius: 12px;
+            width: 220px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+            animation: cardFade 0.8s ease-out;
+        }
+
+        @keyframes cardFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .card img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #39d997;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin: 10px 0 5px;
+        }
+
+        .card p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #1f2233;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Skill Forge</h1>
+    <nav>
+        <a href="{% url 'landing:index'%}">
+            Home
+        </a>
+    </nav>
+</header>
+
+<section class="team-section">
+    <h2>Our Friendly Team</h2>
+    <p>Meet the amazing people behind Skill Forge.</p>
+
+    <div class="team-cards">
+
+        <div class="card">
+            <img src="{%static 'landing/images/Max.jpg'%}" alt="Team Member">
+            <h3>Max Kim</h3>
+            <p>Lead developer</p>
+            <p>Portfolio: <a href="https://t.me/stocktonfreelance" style="color:#39d997">https://t.me/stocktonfreelance</a></p>
+        </div>
+
+        <div class="card">
+            <img src="{%static 'landing/images/Danil.jpg' %}" alt="Team Member">
+            <h3>Danil Temirgaliev</h3>
+            <p>Frontend/backend developer</p>
+            <p>Portfolio: <a href="https://t.me/dcraft_portfolio" style="color:#39d997">https://t.me/dcraft_portfolio</a></p>
+        </div>
+
+        <div class="card">
+            <img src="{%static 'landing/images/Renard.jpg' %}" alt="Team Member">
+            <h3>Renard Chigaryev</h3>
+            <p>Frontend/backend developer</p>
+            <p>Portfolio: <a href="https://github.com/sedulix" style="color:#39d997">https://github.com/sedulix</a></p>
+        </div>
+
+        <div class="card">
+            <img src="{%static 'landing/images/Iskandar.jpg' %}" alt="Team Member">
+            <h3>Azimov Iskandar</h3>
+            <p>Motion designer</p>
+            <p>Portfolio: <a href="https://t.me/skan_vfx1" style="color:#39d997">https://t.me/skan_vfx1</a></p>
+        </div>
+
+        <div class="card">
+            <img src="{%static 'landing/images/Aydana.jpg' %}" alt="Team Member">
+            <h3>Aydana Narkhozova</h3>
+            <p>UI/UX designer</p>
+            <p>Portfolio: <a href="https://github.com/aydanaprogrammer" style="color:#39d997">https://github.com/aydanaprogrammer</a></p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 Skill Forge. All rights reserved.
+</footer>
+
+</body>
+</html>
+
+

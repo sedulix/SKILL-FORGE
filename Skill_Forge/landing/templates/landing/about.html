@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Skill Forge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            background-color: #0f111a;
+            color: #ffffff;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background-color: #0f111a;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2233;
+        }
+
+        header h1 {
+            color: #39d997;
+            font-size: 1.8rem;
+        }
+
+        nav a {
+            background-color: #16a34a;
+            color: #111827;          
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
+                        0 4px 6px -4px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            background-color: #22c55e;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        h2 {
+            color: #39d997;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .mvp-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: #1f2233;
+            border: 1px solid #2a2e44;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+
+        .feature-card ul {
+            padding-left: 20px;
+        }
+
+        .video-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 12px;
+            border: 2px solid #39d997;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #1f2233;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Skill Forge</h1>
+    <nav>
+        <a href="{% url 'landing:index' %}">Home</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <h2>Skill Forge: Minimum Viable Product (MVP)</h2>
+
+    <div class="section">
+        <p><strong>Project Goal:</strong> To provide students with an immediate, data-driven understanding of their personalized learning and behavior profile, enabling them to make informed decisions about their study approach and skill development.</p>
+    </div>
+
+    <div class="section mvp-features">
+        <div class="feature-card">
+            <h3>Core Feature: Learning Genome Assessment</h3>
+            <p>A 10-question, interactive quiz designed to capture a holistic view of the user's learning characteristics.</p>
+            <strong>Assessment Categories (7-Point Analysis):</strong>
+            <ul>
+                <li><strong>Thinking Style:</strong> Analytical, Intuitive, or Structured approach to problem-solving.</li>
+                <li><strong>Perception:</strong> Primary learning modality (Visual, Auditory, Kinesthetic).</li>
+                <li><strong>Pace of Assimilation:</strong> Speed and method of grasping new, challenging material.</li>
+                <li><strong>Core Interests:</strong> Primary inclination toward Technology/Logic, Arts/Expression, or Social/Business.</li>
+                <li><strong>Emotional State:</strong> Stability and adaptability when faced with stress or unexpected changes.</li>
+                <li><strong>Strong & Weak Skills:</strong> Identification of natural aptitudes and areas requiring targeted practice.</li>
+                <li><strong>Task Behavior:</strong> Tendency toward planning, procrastination, resilience, and group role (leadership/support).</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <h3>MVP Deliverable: The Digital Profile</h3>
+            <ul>
+                <li><strong>Profile Scorecard:</strong> A grid summarizing the results across the 7 criteria.</li>
+                <li><strong>Identified Growth Areas:</strong> A bulleted list highlighting key weaknesses and behavioral patterns that could hinder learning.</li>
+                <li><strong>Personalized Recommendation:</strong> A clear, concise statement suggesting immediate areas of focus or the most suitable learning path based on the profile.</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <h3>Out of Scope (Future Features)</h3>
+            <ul>
+                <li>User Accounts & Data Persistence: Saving and tracking profiles over time.</li>
+                <li>Module Integration: Assigning specific course modules or external resources based on the recommendation.</li>
+                <li>Multi-User Comparison: Functionality to compare one's profile with peers or ideal career profiles.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section video-container">
+        <h2>Case solution explained</h2>
+        <video controls>
+            <source src="{% static 'landing/videos/SkillForge_vid.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2025 Skill Forge. All rights reserved.
+</footer>
+
+</body>
+</html>
+
