@@ -44,7 +44,7 @@ The video explains the main features, digital profile generation, and overall wo
 ## 📌 How to Run
 
 ```bash
-git clone https://github.com/YourUsername/Skill-Forge.git
+git clone https://github.com/sedulix/Skill-Forge.git
 cd Skill-Forge
 pip install -r requirements.txt
 python manage.py runserver
