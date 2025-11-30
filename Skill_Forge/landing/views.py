@@ -5,6 +5,7 @@ from django.views import View
 def index(request):
     return render(request, 'landing/index.html')
 
+
 class TestPageView(View):
     def get(self, request):
         context = {
@@ -27,4 +28,5 @@ class About(View):
 
         }
         return render(request, 'landing/about.html', context)
+
 
